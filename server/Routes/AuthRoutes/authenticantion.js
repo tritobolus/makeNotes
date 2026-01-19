@@ -9,14 +9,13 @@ const router = express.Router();
 router.post("/signup", async (req, res) => {
   try {
     const { email, username, password } = req.body;
-    console.log(email, username, password)
 
     if (!email || !username || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     //checking email is already there or not
-    const checkEmail = await User.findOne({email});
+    const checkEmail = await User.findOne({ email });
     if (checkEmail) {
       return res.status(409).json({
         message: "Email already exists",
@@ -24,7 +23,7 @@ router.post("/signup", async (req, res) => {
     }
 
     //checking username is already there or not
-    const checkUsername = await User.findOne({username});
+    const checkUsername = await User.findOne({ username });
     if (checkUsername) {
       return res.status(409).json({
         message: "Username already exists",
@@ -55,7 +54,6 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/signin", async (req, res) => {
-  console.log("Enterted in signin");
   try {
     const { username, password } = req.body;
 
@@ -78,14 +76,21 @@ router.post("/signin", async (req, res) => {
     const payload = {
       username: username,
       userId: user._id.toString(),
-      email: user.email
+      email: user.email,
     };
-    const secretKey = "this_is_my_seret_key";
+    const secretKey = process.env.SECRET_KEY;
     const options = { expiresIn: "1d" };
 
     const token = jwt.sign(payload, secretKey, options);
 
-    res.cookie("token", token);
+    const isProduction = process.env.NODE_ENV === "production";
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: isProduction, // true only in production
+      sameSite: isProduction ? "none" : "lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({ message: "User login successfully" });
   } catch (error) {
@@ -94,18 +99,25 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/verify", verifyUser, async(req,res) => {
-    return res.status(200).json({message: "Success" ,userId: req.userId, username: req.username, email: req.email})
-})
+router.get("/verify", verifyUser, async (req, res) => {
+  return res
+    .status(200)
+    .json({
+      message: "Success",
+      userId: req.userId,
+      username: req.username,
+      email: req.email,
+    });
+});
 
-router.delete("/signout", async(req,res) => {
-   try {
-    res.clearCookie("token"); 
+router.delete("/signout", async (req, res) => {
+  try {
+    res.clearCookie("token");
     return res.status(200).json({ message: "Successfully signout" });
   } catch (error) {
     console.log(error);
     return res.json({ message: "Can't delete JWT token!" });
   }
-})
+});
 
 export default router;
