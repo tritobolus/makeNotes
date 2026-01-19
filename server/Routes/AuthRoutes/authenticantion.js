@@ -100,19 +100,22 @@ router.post("/signin", async (req, res) => {
 });
 
 router.get("/verify", verifyUser, async (req, res) => {
-  return res
-    .status(200)
-    .json({
-      message: "Success",
-      userId: req.userId,
-      username: req.username,
-      email: req.email,
-    });
+  return res.status(200).json({
+    message: "Success",
+    userId: req.userId,
+    username: req.username,
+    email: req.email,
+  });
 });
 
 router.delete("/signout", async (req, res) => {
   try {
-    res.clearCookie("token");
+    const isProduction = process.env.NODE_ENV === "production";
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+    });
     return res.status(200).json({ message: "Successfully signout" });
   } catch (error) {
     console.log(error);

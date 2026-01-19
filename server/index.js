@@ -25,7 +25,4 @@ app.use("/authentication",authentication)
 app.use("/profile",profile)
 
 
-
-
-
-app.listen(8000, () => console.log("Server is runing..."));
+app.listen(process.env.PORT || 8000, () => console.log("Server is runing..."));
