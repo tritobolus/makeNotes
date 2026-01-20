@@ -29,7 +29,7 @@ export const Profile = ({setIsProfile}) => {
       const imageData = new FormData();
       imageData.append("file", image);
       imageData.append("upload_preset", "makeNotes");
-      imageData.append("cloud_name", "dbkpqsbzm");
+      imageData.append("cloud_name", import.meta.env.CLOUD_NAME);
 
       const data = await axios.post(
         import.meta.env.VITE_API_CLOUDINARY_URL,
