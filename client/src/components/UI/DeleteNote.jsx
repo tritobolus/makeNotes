@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useAuth } from "../../context/AuthContext";
 
 export const DeleteNote = ({
   setIsDelete,
@@ -8,9 +9,10 @@ export const DeleteNote = ({
   deleteDes,
   getNotes,
 }) => {
+  const {BACKEND_URL} = useAuth()
   const handleDelete = async () => {
     try {
-      const res = await axios.delete("http://localhost:8000/note/delete", {
+      const res = await axios.delete(`${BACKEND_URL}/note/delete`, {
         data: { id: deleteId },
       });
       console.log(res);

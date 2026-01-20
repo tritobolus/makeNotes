@@ -9,11 +9,17 @@ import { useForm } from "react-hook-form";
 
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { ThreeDot } from "react-loading-indicators";
+
+import { useAuth } from "../../context/AuthContext";
 
 export const SignUp = () => {
+    const [isSignup, setIsSignup] = useState(false)
 
     const[showConfirmPass, setShowConfirmPass] = useState(false)
     const[showPass, setShowPass] = useState(false)
+
+    const {BACKEND_URL} = useAuth()
 
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(signupSchema)});
 
@@ -21,14 +27,17 @@ export const SignUp = () => {
 
     const Submit = async(data) => {
         try {
-            const res = await axios.post("http://localhost:8000/authentication/signup",
+            setIsSignup(true)
+            const res = await axios.post(`${BACKEND_URL}/authentication/signup`,
                data
             )
             console.log(res)
             alert(res.data.message)
+            setIsSignup(false)
             navigate("/signin")
             
         } catch (error) {
+            setIsSignup(false)
             console.log(error.response.data.message)
             alert(error.response.data.message)
         }
@@ -96,9 +105,9 @@ export const SignUp = () => {
             </div>
             <button 
                 type="submit"
-                className="bg-green-500 px-2 py-1 rounded mt-4 hover:bg-green-600 hover:cursor-pointer"
+                className="bg-green-500 h-10 px-2 py-1 rounded mt-4 hover:bg-green-600 hover:cursor-pointer"
             >
-                SignUp
+                {isSignup ? <ThreeDot color="#000000" size="small" text="" textColor="" /> : "SignUp"}
             </button>
             {/* <hr className="border border-dashed" /> */}
             <div className="flex gap-x-2 justify-center mt-5">

@@ -12,9 +12,11 @@ export const AuthProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [notes, setNotes] = useState([]);
 
+  const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL;
+
   const getProfileImage = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/profile/getProfile", {
+      const res = await axios.get(`${BACKEND_URL}/profile/getProfile`, {
         params: {
           userId: userId,
         },
@@ -28,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
   const getNotes = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/note/get", {
+      const res = await axios.get(`${BACKEND_URL}/note/get`, {
         params: {
           userId: userId,
         },
@@ -43,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/authentication/verify",
+        `${BACKEND_URL}/authentication/verify`,
         {
           withCredentials: true,
         }
@@ -76,6 +78,7 @@ export const AuthProvider = ({ children }) => {
         imageUrl,
         checkAuth,
         getNotes,
+        BACKEND_URL,
         searchQuery,
         setSearchQuery,
         getProfileImage,

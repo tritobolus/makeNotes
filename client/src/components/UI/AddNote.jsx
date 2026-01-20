@@ -6,12 +6,12 @@ export const AddNote = ({ setAddNote, getNotes }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-    const {userId} = useAuth();
+    const {userId, BACKEND_URL} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/note/create",{title,description, userId} )
+      const res = await axios.post(`${BACKEND_URL}/note/create`,{title,description, userId} )
       console.log(res)
     } catch (error) {
       console.log(error);

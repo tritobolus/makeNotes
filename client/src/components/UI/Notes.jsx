@@ -61,7 +61,7 @@ export const Notes = ({ isProfile, setIsProfile }) => {
 
         }
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2  overflow-y-auto">
-          {filteredNote.map((note) => (
+          {searchQuery && filteredNote.map((note) => (
             <div
               key={note.item._id}
               className=" flex flex-col gap-x-2 p-3 border hover:border-dashed hover:border-green-500  rounded-md  duration-100 transition-all  "
@@ -101,7 +101,7 @@ export const Notes = ({ isProfile, setIsProfile }) => {
             </div>
           ))}
 
-          { filteredNote.length == 0 && searchQuery.length == 0 && (
+          {  searchQuery.length == 0 && (
 
           notes.map((note) => (
             <div
@@ -142,6 +142,7 @@ export const Notes = ({ isProfile, setIsProfile }) => {
               </div>
             </div>
           )))}
+
         </div>
         <div className="absolute hover:cursor-pointer text-green-500 top-170 rounded-full border border-dashed border-gray-500 sm:top-130 right-6 ">
           <IoMdAdd 

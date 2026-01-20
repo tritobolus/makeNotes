@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
  import { ToastContainer, toast } from 'react-toastify';
 
+ import { useAuth } from "../../context/AuthContext";
+
 export const UpdateNote = ({
   setIsUpdate,
   updateId,
@@ -12,11 +14,12 @@ export const UpdateNote = ({
   setUpdateDes,
   getNotes,
 }) => {
+  const {BACKEND_URL} = useAuth()
   const handleUpdate = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await axios.put("http://localhost:8000/note/update", {
+      const res = await axios.put(`${BACKEND_URL}/note/update`, {
         id: updateId,
         title: updateTitle,
         description: updateDes,

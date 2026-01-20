@@ -6,7 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import { ImCross } from "react-icons/im";
 
 export const Profile = ({setIsProfile}) => {
-  const { username, email, userId, imageUrl, getProfileImage, notes } =
+  const { username, email, userId, imageUrl, getProfileImage, notes, BACKEND_URL } =
     useAuth();
   const [imageEdit, setImageEdit] = useState(false);
   const [image, setImage] = useState(null);
@@ -32,13 +32,13 @@ export const Profile = ({setIsProfile}) => {
       imageData.append("cloud_name", "dbkpqsbzm");
 
       const data = await axios.post(
-        "https://api.cloudinary.com/v1_1/dbkpqsbzm/image/upload",
+        import.meta.env.VITE_API_CLOUDINARY_URL,
         imageData
       );
 
       const imageUrl = data.data.secure_url;
 
-      const res = await axios.post("http://localhost:8000/profile/upload", {
+      const res = await axios.post(`${BACKEND_URL}/profile/upload`, {
         imageUrl,
         userId,
       });
@@ -55,7 +55,7 @@ export const Profile = ({setIsProfile}) => {
   const logout = async () => {
     try {
       const res = await axios.delete(
-        "http://localhost:8000/authentication/signout",
+        `${BACKEND_URL}/authentication/signout`,
         {
           withCredentials: true,
         }
