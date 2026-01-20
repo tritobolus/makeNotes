@@ -24,5 +24,9 @@ app.use("/note",noteRoutes)
 app.use("/authentication",authentication)
 app.use("/profile",profile)
 
+app.get("/", (req,res) => {
+    res.send("Hy this is from howly bhoi...")
+})
+
 
 app.listen(process.env.PORT || 8000, () => console.log("Server is runing..."));
