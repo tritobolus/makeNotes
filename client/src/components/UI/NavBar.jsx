@@ -19,13 +19,13 @@ export const NavBar = ({ setIsProfile, isProfile }) => {
   }, [userId])
   return (
     <>
-      <div className="flex justify-between bg-gray-950 px-3 py-2">
+      <div className="flex h-[60px] justify-between rounded-xl bg-gray-950 px-3 py-2">
         <h1 className=" flex font-semibold text-2xl">
           <p className="text-green-500">make</p>
           <p>Notes</p>
         </h1>
         <input 
-          className="border border-green-500 px-3  rounded-xl mr-2 w-30 sm:w-auto"
+          className="border border-green-500 px-3 scale-90  rounded-xl mr-2 w-30 sm:w-auto"
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search notes"
           type="text" />

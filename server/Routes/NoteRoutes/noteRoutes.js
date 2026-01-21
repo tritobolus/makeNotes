@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get("/get", async (req, res) => {
   const {userId} = req.query
-  const notes = await Note.find({userId: userId});
+  const notes = await Note.find({userId: userId}).sort({ createdAt: -1 });;
   return res.json(notes);
 });
 

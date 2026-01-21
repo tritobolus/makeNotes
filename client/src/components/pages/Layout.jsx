@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { useAuth } from "../../context/AuthContext"
+import { Footer } from "../UI/Footer"
 
 export const Layout = () => {
   const {checkAuth, auth} = useAuth()
@@ -28,9 +29,10 @@ export const Layout = () => {
     {auth && (
       <div  className="h-screen w-screen flex items-center justify-center bg-black">
 
-      <div className=" h-screen sm:h-165 w-3xl    bg-black/20 sm:border border-green-400 border-dashed relative rounded-lg p-2 ">
+      <div className=" h-screen  w-3xl    bg-black/20 sm:border border-green-400 border-dashed relative rounded-lg  ">
         <NavBar setIsProfile={setIsProfile} isProfile={isProfile}/>
         <Notes isProfile={isProfile} setIsProfile={setIsProfile} />
+        <Footer/>
       </div>
 
     </div>

@@ -47,3 +47,17 @@ export const signinSchema = z.object({
     .regex(/[0-9]/, "Must contain at least one number")
     .regex(/[@$!%*?&#^]/, "Must contain at least one special character"),
 });
+
+export const noteSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Title is required")
+    .min(3, "Title must be at least 3 characters")
+    .max(20, "Title must be at most 20 characters"),
+
+  description: z
+    .string()
+    .min(1, "description is required")
+    .min(3, "description must be at least 3 characters")
+    .max(100, "description must be at most 100 characters")
+});
