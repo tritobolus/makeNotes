@@ -33,7 +33,10 @@ export const Profile = ({ setIsProfile }) => {
 
   const handleUploadImage = async () => {
     try {
-      if (!image) toast.warning("Please select a image");
+      if (!image){
+        toast.warning("Please select a image");
+        return;
+      }
 
       setIsUploading(true);
 
@@ -202,9 +205,9 @@ export const Profile = ({ setIsProfile }) => {
         </div>
         <button
           onClick={() => logout()}
-          className="bg-red-500 rounded-2xl px-2 py-1 hover:cursor-pointer hover:bg-red-600"
+          className="bg-red-500 rounded-2xl px-2 py-1 hover:cursor-pointer hover:bg-red-600 active:scale-95 transition-all duration-150"
         >
-          Logout
+          Signout
         </button>
         <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       </div>

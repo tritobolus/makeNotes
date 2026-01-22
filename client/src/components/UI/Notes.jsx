@@ -142,7 +142,7 @@ export const Notes = ({ isProfile, setIsProfile }) => {
               </div>
             ))}
         </div>
-        <div className=" absolute hover:cursor-pointer text-green-500 top-[calc(100vh-188px)] z-10 rounded-full border border-dashed border-gray-500 sm:top-130 right-6 active:scale-90 transition-all duration-150 ">
+        <div className=" absolute hover:cursor-pointer text-green-500 top-[calc(100vh-200px)] z-10 rounded-full border border-dashed border-gray-500 sm:top-130 right-6 active:scale-90 transition-all duration-150 ">
           <IoMdAdd
             onClick={() => {
               (setAddNote(true), setIsProfile(false));

@@ -48,7 +48,8 @@ export const SignIn = () => {
     } catch (error) {
       console.log(error);
       // alert(error.response.data.message);
-      toast.error("An error occurred. Please try again.");
+      toast.error(error.response.data.message);
+      setIsSignin(false);
     }
   };
   return (

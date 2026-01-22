@@ -22,16 +22,15 @@ export const AuthProvider = ({ children }) => {
           username: username,
         },
       });
-      // console.log(res);
       setImageUrl(res.data.imageUrl);
     } catch (error) {
       console.log(error);
     }
   };
+
   const getAvatars = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/avatar/get`);
-      console.log(res);
       setAvatars(res.data.avatars);
     } catch (error) {
       console.log(error);
@@ -45,7 +44,6 @@ export const AuthProvider = ({ children }) => {
           userId: userId,
         },
       });
-      // console.log(res);
       setNotes(res.data);
     } catch (error) {
       console.log(error);
@@ -60,7 +58,6 @@ export const AuthProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      // console.log(res);
       if (res.data.message === "Success") {
         setAuth(true);
         setUserId(res.data.userId);
@@ -69,7 +66,6 @@ export const AuthProvider = ({ children }) => {
       } else {
         setAuth(false);
       }
-      // console.log(res)
     } catch (error) {
       console.log(error);
       setAuth(false);
