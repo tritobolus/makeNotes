@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { noteSchema } from "../config/zodValidator";
 import { useForm } from "react-hook-form";
 
+import { ToastContainer, toast } from "react-toastify";
+
 export const AddNote = ({ setAddNote, getNotes }) => {
   const [isAdding, setIsAdding] = useState(false);
 
@@ -21,14 +23,17 @@ export const AddNote = ({ setAddNote, getNotes }) => {
     try {
       setIsAdding(true)
       const res = await axios.post(`${BACKEND_URL}/note/create`,{...data, userId} )
-      console.log(res)
+      toast.success(res.data.message)
+      // toast.success(res.data.message)
       setIsAdding(false)
     } catch (error) {
       console.log(error);
       alert("Server error")
     }
     getNotes()
-    setAddNote(false);
+    setTimeout(() => {
+      setAddNote(false);
+    }, 1500)
   };
   return (
     <>
@@ -80,6 +85,7 @@ export const AddNote = ({ setAddNote, getNotes }) => {
             </button>
           </div>
         </form>
+        <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       </div>
     </>
   );

@@ -10,7 +10,7 @@ import { useAuth } from "../../context/AuthContext"
 import { Footer } from "../UI/Footer"
 
 export const Layout = () => {
-  const {checkAuth, auth} = useAuth()
+  const {checkAuth, auth, getAvatars} = useAuth()
   const navigate = useNavigate();
 
   const[isProfile, setIsProfile] = useState(false);
@@ -23,6 +23,7 @@ export const Layout = () => {
 
   useEffect(() => {
     checkAuth();
+    getAvatars()
   },[])
   return (
    <>

@@ -6,6 +6,8 @@ import { noteSchema } from "../config/zodValidator";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
 
+import { ToastContainer, toast } from "react-toastify";
+
 export const UpdateNote = ({
   setIsUpdate,
   updateId,
@@ -42,13 +44,15 @@ export const UpdateNote = ({
         ...data,
       });
 
-      console.log(res.data);
+      toast.success(res.data.message);
       setIsUpdating(false)
       getNotes();
-      setIsUpdate(false);
+      setTimeout(() => {
+        setIsUpdate(false);
+      }, 1500)
     } catch (error) {
       console.log(error);
-      alert("Server error");
+      toast.error("Server error");
     }
   };
 
@@ -108,6 +112,7 @@ export const UpdateNote = ({
             </button>
           </div>
         </form>
+       <ToastContainer position="top-right" autoClose={2000} theme="dark" /> 
       </div>
     </>
   );

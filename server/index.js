@@ -1,12 +1,14 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
+
 import connectDB from "./db/dbConnection.js";
 import cors from 'cors'
 import noteRoutes from './Routes/NoteRoutes/noteRoutes.js'
 import authentication from './Routes/AuthRoutes/authenticantion.js'
 import cookieParser from "cookie-parser";
 import profile from "./Routes/Profile/profileRoutes.js"
+import avatar from "./Routes/Avatar/avatarRoutes.js"
 
 
 const app = express();
@@ -27,9 +29,10 @@ connectDB();
 app.use("/note",noteRoutes)
 app.use("/authentication",authentication)
 app.use("/profile",profile)
+app.use("/avatar",avatar)
 
 app.get("/", (req,res) => {
-    res.send("Hy this is from howly bhoi...")
+    res.send("Hey this is from howly bhoi...")
 })
 
 

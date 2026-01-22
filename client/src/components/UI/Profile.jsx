@@ -4,13 +4,24 @@ import axios from "axios";
 import { BsPencilSquare } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import { ImCross } from "react-icons/im";
+import { ToastContainer, toast } from "react-toastify";
 
-export const Profile = ({setIsProfile}) => {
-  const { username, email, userId, imageUrl, getProfileImage, notes, BACKEND_URL } =
-    useAuth();
+export const Profile = ({ setIsProfile }) => {
+  const {
+    username,
+    email,
+    userId,
+    imageUrl,
+    getProfileImage,
+    notes,
+    BACKEND_URL,
+    avatars,
+    getAvatars,
+  } = useAuth();
   const [imageEdit, setImageEdit] = useState(false);
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isAvatarChanging, setIsAvatarChanging] = useState(false);
 
   const handleImageEdit = () => {
     if (imageEdit) {
@@ -22,7 +33,7 @@ export const Profile = ({setIsProfile}) => {
 
   const handleUploadImage = async () => {
     try {
-      if (!image) alert("Please selct any image");
+      if (!image) toast.warning("Please select a image");
 
       setIsUploading(true);
 
@@ -33,14 +44,15 @@ export const Profile = ({setIsProfile}) => {
 
       const data = await axios.post(
         import.meta.env.VITE_API_CLOUDINARY_URL,
-        imageData
+        imageData,
       );
 
       const imageUrl = data.data.secure_url;
 
       const res = await axios.post(`${BACKEND_URL}/profile/upload`, {
         imageUrl,
-        userId,
+        username,
+        type: "nonAvatar",
       });
       console.log("after uploading on db", res);
       getProfileImage();
@@ -52,40 +64,59 @@ export const Profile = ({setIsProfile}) => {
     }
   };
 
-  const logout = async () => {
+  const changeAvatar = async (avatarId, imageUrl) => {
     try {
-      const res = await axios.delete(
-        `${BACKEND_URL}/authentication/signout`,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(res);
-
-      alert("Successful logout");
-      // setTimeout(() => {
-      //   navigate("/login");
-      //   window.location.reload();
-      // }, 1500);
-      window.location.reload();
+      setIsAvatarChanging(true)
+      const res = await axios.post(`${BACKEND_URL}/profile/upload`, {
+        avatarId,
+        imageUrl,
+        username,
+        type: "avatar",
+      });
+      console.log("after uploading on db", res);
+      getProfileImage();
+      getAvatars();
+      setIsAvatarChanging(false)
     } catch (error) {
-      alert("Logout failed");
       console.log(error);
     }
   };
+
+  const logout = async () => {
+    try {
+      const res = await axios.delete(`${BACKEND_URL}/authentication/signout`, {
+        withCredentials: true,
+      });
+      console.log(res);
+
+      toast.success("Successful logout");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      alert("Logout failed");
+      console.log(error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-col justify-between gap-y-4 bg-black rounded-xl border border-green-400 p-4 w-70">
+      <div className="flex flex-col justify-between gap-y-4 bg-black rounded-xl border border-green-400 p-4 w-70 z-100">
         {/* image section,, handleing image upload and all */}
         <div className="flex flex-col gap-y-2">
           <div className="flex justify-between text-green-500">
             <img
-              className="w-50 h-50 rounded-full border-2 border-green-500 "
+              className="w-50 h-50 rounded-full border-2 border-green-500 object-cover"
               src={imageUrl}
               alt=""
             />
             <div className="flex flex-col justify-between">
-              <RxCross2 onClick={() => setIsProfile(false)} size={25} className="ml-1 font-semibold hover:cursor-pointer" />
+              <RxCross2
+                onClick={() => setIsProfile(false)}
+                size={25}
+                className="ml-1 font-semibold hover:cursor-pointer"
+              />
               {/* <ImCross/> */}
               <BsPencilSquare
                 className="hover:cursor-pointer"
@@ -94,7 +125,10 @@ export const Profile = ({setIsProfile}) => {
               />
             </div>
           </div>
-          {imageEdit && (
+          {isUploading && (
+            <p className="text-red-500">wait, file is uploading...</p>
+          )}
+          {imageEdit && !isUploading && (
             <>
               <div className="flex flex-col gap-y-2 px-1 scale-90">
                 <div className="flex flex-col ">
@@ -115,10 +149,6 @@ export const Profile = ({setIsProfile}) => {
                       {image.name}
                     </p>
                   )}
-
-                  {isUploading && (
-                    <p className="text-red-500">wait, file is uploading...</p>
-                  )}
                 </div>
                 <div className="flex justify-between gap-x-2">
                   <button
@@ -137,6 +167,23 @@ export const Profile = ({setIsProfile}) => {
               </div>
             </>
           )}
+        </div>
+
+        <div className="flex flex-col gap-y-2">
+          <div className="flex gap-x-2">
+            <p>Avatar</p>
+            {isAvatarChanging && <p className="text-red-500">changing...</p>}
+          </div>
+          <div className="flex justify-between gap-x-1">
+            {avatars.map((avatar) => (
+              <img
+                key={avatar._id}
+                src={avatar.imageUrl}
+                onClick={() => changeAvatar(avatar._id, avatar.imageUrl)}
+                className={`w-10 h-10 rounded-full border ${avatar.imageUrl != imageUrl ? "border-white hover:scale-105 active:scale-90"  : "border-green-500 scale-110 "} hover:cursor-pointer  duration-150 transition-all  `}
+              />
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col">
@@ -159,6 +206,7 @@ export const Profile = ({setIsProfile}) => {
         >
           Logout
         </button>
+        <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       </div>
     </>
   );

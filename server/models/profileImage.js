@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const imageSchema = new mongoose.Schema(
   {
-    userId: {
+    username: {
       type: String,
       required: true,
     },

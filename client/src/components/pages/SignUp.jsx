@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { ThreeDot } from "react-loading-indicators";
+import { ToastContainer, toast } from "react-toastify";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -32,14 +33,15 @@ export const SignUp = () => {
                data
             )
             console.log(res)
-            alert(res.data.message)
+            toast.success(res.data.message)
             setIsSignup(false)
-            navigate("/signin")
+            setTimeout(() => {
+                navigate("/signin")
+            }, 2000)
             
         } catch (error) {
             setIsSignup(false)
-            console.log(error.response.data.message)
-            alert(error.response.data.message)
+            toast.error(error.response.data.message)
         }
     }
   return (
@@ -118,6 +120,7 @@ export const SignUp = () => {
             </div>
           </form>
         </div>
+        <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       </div>
     </>
   );

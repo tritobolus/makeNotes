@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../../models/user.js";
 import verifyUser from "../../middleware/verifyUser.js";
+import ProfileImage from "../../models/profileImage.js"
 
 const router = express.Router();
 
@@ -38,6 +39,17 @@ router.post("/signup", async (req, res) => {
       username,
       password: hashedPassword,
     });
+
+    const ProfileImageExist = await ProfileImage.findOne({
+       username,
+    });
+    if (!ProfileImageExist) {
+      // create profile image when user is
+       await ProfileImage.create({
+        username: username,
+        imageUrl: "https://res.cloudinary.com/dbkpqsbzm/image/upload/v1769060329/axvk0eyc2mfox6atb8zz.png",
+      });
+    }
 
     return res.status(201).json({
       message: "User registered successfully",
@@ -92,6 +104,8 @@ router.post("/signin", async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
+    
+
     return res.status(200).json({ message: "User login successfully" });
   } catch (error) {
     console.log(error);
@@ -116,7 +130,7 @@ router.delete("/signout", async (req, res) => {
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
     });
-    return res.status(200).json({ message: "Successfully signout" });
+    return res.status(200).json({ message: "Successfully Sign Out" });
   } catch (error) {
     console.log(error);
     return res.json({ message: "Can't delete JWT token!" });

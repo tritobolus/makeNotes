@@ -25,9 +25,9 @@ export const NavBar = ({ setIsProfile, isProfile }) => {
           <p>Notes</p>
         </h1>
         <input 
-          className="border border-green-500 px-3 scale-90  rounded-xl mr-2 w-30 sm:w-auto"
+          className="border border-green-500 px-3 scale-90  rounded-xl mr-2 w-40 sm:w-90"
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search notes"
+          placeholder="Search notes..."
           type="text" />
         <div>
           <img

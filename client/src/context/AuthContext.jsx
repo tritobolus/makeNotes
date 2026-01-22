@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [imageUrl, setImageUrl] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [notes, setNotes] = useState([]);
+  const [avatars, setAvatars] = useState([]);
 
   const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL;
 
@@ -18,11 +19,20 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.get(`${BACKEND_URL}/profile/getProfile`, {
         params: {
-          userId: userId,
+          username: username,
         },
       });
       // console.log(res);
       setImageUrl(res.data.imageUrl);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getAvatars = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/avatar/get`);
+      console.log(res);
+      setAvatars(res.data.avatars);
     } catch (error) {
       console.log(error);
     }
@@ -78,6 +88,8 @@ export const AuthProvider = ({ children }) => {
         imageUrl,
         checkAuth,
         getNotes,
+        getAvatars,
+        avatars,
         BACKEND_URL,
         searchQuery,
         setSearchQuery,

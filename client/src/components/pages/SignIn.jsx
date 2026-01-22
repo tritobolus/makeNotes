@@ -13,9 +13,10 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { ThreeDot } from "react-loading-indicators";
 
-export const SignIn = () => {
+import { ToastContainer, toast } from "react-toastify";
 
-  const [isSignin, setIsSignin] = useState(false)
+export const SignIn = () => {
+  const [isSignin, setIsSignin] = useState(false);
 
   const [showPass, setShowPass] = useState(false);
 
@@ -25,13 +26,13 @@ export const SignIn = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(signinSchema) });
 
-  const { checkAuth, username, email, BACKEND_URL  } = useAuth();
+  const { checkAuth, username, email, BACKEND_URL } = useAuth();
 
   const navigate = useNavigate();
 
   const Submit = async (data) => {
     try {
-      setIsSignin(true)
+      setIsSignin(true);
       const res = await axios.post(
         `${BACKEND_URL}/authentication/signin`,
         data,
@@ -39,14 +40,15 @@ export const SignIn = () => {
           withCredentials: true,
         },
       );
-      alert(res.data.message);
+
       await checkAuth();
-      console.log(username, email)
-      setIsSignin(false)
-      navigate("/");
+      setIsSignin(false);
+      toast.success( res.data.message);
+      setTimeout(() => navigate("/"), 2000);
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      // alert(error.response.data.message);
+      toast.error("An error occurred. Please try again.");
     }
   };
   return (
@@ -94,7 +96,11 @@ export const SignIn = () => {
               type="submit"
               className="bg-green-500 hover:bg-green-600 cursor-pointer px-2 py-1 rounded mt-2"
             >
-              {isSignin ? <ThreeDot color="#000000" size="small" text="" textColor="" /> : "SignUp"}
+              {isSignin ? (
+                <ThreeDot color="#000000" size="small" text="" textColor="" />
+              ) : (
+                "SignUp"
+              )}
             </button>
             {/* <hr className="border border-dashed" /> */}
             <div className="flex gap-x-2 justify-center mt-5">
@@ -108,6 +114,7 @@ export const SignIn = () => {
             </div>
           </form>
         </div>
+        <ToastContainer position="top-right" autoClose={2000} theme="dark" />
       </div>
     </>
   );

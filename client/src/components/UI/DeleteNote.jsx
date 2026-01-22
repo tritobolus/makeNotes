@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+
 import { useAuth } from "../../context/AuthContext";
 
 export const DeleteNote = ({
@@ -18,10 +20,12 @@ export const DeleteNote = ({
       const res = await axios.delete(`${BACKEND_URL}/note/delete`, {
         data: { id: deleteId },
       });
-      console.log(res);
+      toast.success(res.data.message);
       getNotes();
       setIsDeleting(false)
-      setIsDelete(false);
+      setTimeout(() => {
+        setIsDelete(false);
+      },1500)
     } catch (error) {
       console.log(error);
       alert("server is not working")
@@ -55,6 +59,7 @@ export const DeleteNote = ({
             </button>
           </div>
         </div>
+        <ToastContainer position="top-right" autoClose={2000} theme="dark" /> 
       </div>
     </>
   );
