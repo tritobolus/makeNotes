@@ -105,12 +105,12 @@ export const SignIn = () => {
             </button>
             {/* <hr className="border border-dashed" /> */}
             <div className="flex gap-x-2 justify-center mt-5">
-              <p>Don't Hav Account?</p>
+              <p>Don't Have Account?</p>
               <Link
                 to="/signup"
                 className="text-green-500 hover:cursor-pointer hover:underline"
               >
-                SignUp
+                SignIn
               </Link>
             </div>
           </form>
