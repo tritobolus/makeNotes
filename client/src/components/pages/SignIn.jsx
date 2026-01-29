@@ -100,7 +100,7 @@ export const SignIn = () => {
               {isSignin ? (
                 <ThreeDot color="#000000" size="small" text="" textColor="" />
               ) : (
-                "SignUp"
+                "SignIn"
               )}
             </button>
             {/* <hr className="border border-dashed" /> */}
@@ -110,7 +110,7 @@ export const SignIn = () => {
                 to="/signup"
                 className="text-green-500 hover:cursor-pointer hover:underline"
               >
-                SignIn
+                SignUp
               </Link>
             </div>
           </form>
