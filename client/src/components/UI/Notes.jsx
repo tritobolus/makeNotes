@@ -47,7 +47,7 @@ export const Notes = ({ isProfile, setIsProfile }) => {
         )}
         {notes.length == 0 && (
           <p className="text-gray-500 flex justify-center items-center mt-60">
-            click on 'pluse' button to add a Note
+            click on '<span className="font-bold text-xl">+</span>' button to add a Note
           </p>
         )}
         {filteredNote.length == 0 && searchQuery.length != 0 && (
@@ -141,8 +141,8 @@ export const Notes = ({ isProfile, setIsProfile }) => {
                 </div>
               </div>
             ))}
-        </div>
-        <div className=" absolute hover:cursor-pointer text-green-500 top-[calc(100vh-200px)] z-10 rounded-full border border-dashed border-gray-500 sm:top-130 right-6 active:scale-90 transition-all duration-150 ">
+        </div> 
+        <div className=" absolute hover:cursor-pointer text-green-500 top-[calc(100vh-200px)]  z-10 rounded-full border border-dashed border-gray-500 sm:top-130 right-6 active:scale-90 transition-all duration-150 ">
           <IoMdAdd
             onClick={() => {
               (setAddNote(true), setIsProfile(false));
