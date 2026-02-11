@@ -47,9 +47,12 @@ export const Notes = ({ isProfile, setIsProfile }) => {
         )}
         {notes.length == 0 && (
           <p className="text-gray-500 flex justify-center items-center mt-60">
-            click on '<span className="font-bold text-xl">+</span>' button to add a Note
+            click on ' <span className="font-bold text-xl">+</span> ' button to
+            add a Note
           </p>
         )}
+
+        {/* when sarching notes */}
         {filteredNote.length == 0 && searchQuery.length != 0 && (
           <p className="text-gray-500 flex justify-center items-center mt-60">
             No result found
@@ -60,12 +63,16 @@ export const Notes = ({ isProfile, setIsProfile }) => {
             filteredNote.map((note) => (
               <div
                 key={note.item._id}
-                className=" flex flex-col gap-x-2 p-3 border hover:border-dashed hover:border-green-500  rounded-md  duration-100 transition-all  "
+                className=" flex flex-col justify-between gap-x-2 p-3 border hover:border-dashed hover:border-green-500  rounded-md  duration-100 transition-all  "
               >
-                <h2 className="font-semibold text-xl text-green-500">
-                  {note.item.title}
-                </h2>
-                <p>{note.item.description}</p>
+                <div className="flex flex-col">
+                  <h2 className="font-semibold text-xl text-green-500">
+                    {note.item.title}
+                  </h2>
+                  <p>{note.item.description}</p>
+                </div>
+
+                {/* this is note creation date and buttons */}
                 <div className="flex justify-between">
                   <p className="text-gray-500">
                     {new Date(note.item.createdAt).toLocaleString("en-IN", {
@@ -99,16 +106,21 @@ export const Notes = ({ isProfile, setIsProfile }) => {
               </div>
             ))}
 
+          {/* when not sarching any note */}
           {searchQuery.length == 0 &&
             notes.map((note) => (
               <div
                 key={note._id}
-                className=" flex flex-col gap-x-2 p-3 border hover:border-dashed hover:border-green-500  rounded-md  duration-100 transition-all  "
+                className=" flex flex-col justify-between gap-x-2 p-3 border hover:border-dashed hover:border-green-500  rounded-md  duration-100 transition-all  "
               >
-                <h2 className="font-semibold text-xl text-green-500">
-                  {note.title}
-                </h2>
-                <p>{note.description}</p>
+                <div className="flex flex-col ">
+                  <h2 className="font-semibold text-xl text-green-500">
+                    {note.title}
+                  </h2>
+                  <p>{note.description}</p>
+                </div>
+
+                {/* creation date and buttons */}
                 <div className="flex justify-between">
                   <p className="text-gray-500">
                     {new Date(note.createdAt).toLocaleString("en-IN", {
@@ -141,7 +153,7 @@ export const Notes = ({ isProfile, setIsProfile }) => {
                 </div>
               </div>
             ))}
-        </div> 
+        </div>
         <div className=" absolute hover:cursor-pointer text-green-500 top-[calc(100vh-200px)]  z-10 rounded-full border border-dashed border-gray-500 sm:top-130 right-6 active:scale-90 transition-all duration-150 ">
           <IoMdAdd
             onClick={() => {
