@@ -10,6 +10,8 @@ import cookieParser from "cookie-parser";
 import profile from "./Routes/Profile/profileRoutes.js"
 import avatar from "./Routes/Avatar/avatarRoutes.js"
 
+import customeAvatar from "./Routes/Avatar/customeAvatarRoutes.js"
+
 
 const app = express();
 
@@ -30,6 +32,7 @@ app.use("/note",noteRoutes)
 app.use("/authentication",authentication)
 app.use("/profile",profile)
 app.use("/avatar",avatar)
+app.use("/customeAvatar",customeAvatar)
 
 app.get("/", (req,res) => {
     res.send("Hey this is from howly bhoi...")

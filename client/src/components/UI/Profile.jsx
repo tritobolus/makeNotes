@@ -3,8 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 import { BsPencilSquare } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
-import { ImCross } from "react-icons/im";
 import { ToastContainer, toast } from "react-toastify";
+import { CustomeAvatar } from "./CustomeAvatar";
 
 export const Profile = ({ setIsProfile }) => {
   const {
@@ -22,50 +22,17 @@ export const Profile = ({ setIsProfile }) => {
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [isAvatarChanging, setIsAvatarChanging] = useState(false);
+  const [customeAvatar, setCustomeAvatar] = useState(false);
 
-  const handleImageEdit = () => {
-    if (imageEdit) {
-      setImageEdit(false);
-    } else {
-      setImageEdit(true);
-    }
-  };
+  // const handleImageEdit = () => {
+  //   if (imageEdit) {
+  //     setImageEdit(false);
+  //   } else {
+  //     setImageEdit(true);
+  //   }
+  // };
 
-  const handleUploadImage = async () => {
-    try {
-      if (!image){
-        toast.warning("Please select a image");
-        return;
-      }
 
-      setIsUploading(true);
-
-      const imageData = new FormData();
-      imageData.append("file", image);
-      imageData.append("upload_preset", "makeNotes");
-      imageData.append("cloud_name", import.meta.env.CLOUD_NAME);
-
-      const data = await axios.post(
-        import.meta.env.VITE_API_CLOUDINARY_URL,
-        imageData,
-      );
-
-      const imageUrl = data.data.secure_url;
-
-      const res = await axios.post(`${BACKEND_URL}/profile/upload`, {
-        imageUrl,
-        username,
-        type: "nonAvatar",
-      });
-      console.log("after uploading on db", res);
-      getProfileImage();
-      setImage(false);
-      setImageEdit(false);
-      setIsUploading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const changeAvatar = async (avatarId, imageUrl) => {
     try {
@@ -76,7 +43,7 @@ export const Profile = ({ setIsProfile }) => {
         username,
         type: "avatar",
       });
-      console.log("after uploading on db", res);
+      // console.log("after uploading on db", res);
       getProfileImage();
       getAvatars();
       setIsAvatarChanging(false)
@@ -124,54 +91,13 @@ export const Profile = ({ setIsProfile }) => {
               <BsPencilSquare
                 className="hover:cursor-pointer"
                 size={25}
-                onClick={() => handleImageEdit()}
+                onClick={() => setCustomeAvatar(true)}
               />
             </div>
           </div>
-          {isUploading && (
-            <p className="text-red-500">wait, file is uploading...</p>
-          )}
-          {imageEdit && !isUploading && (
-            <>
-              <div className="flex flex-col gap-y-2 px-1 scale-90">
-                <div className="flex flex-col ">
-                  {!image && (
-                    <label className="w-full text-center border border-green-500 text-green-500 py-1 rounded cursor-pointer hover:bg-green-500 hover:text-black transition">
-                      Choose Image
-                      <input
-                        onChange={(e) => setImage(e.target.files[0])}
-                        type="file"
-                        accept="image/*"
-                        hidden
-                      />
-                    </label>
-                  )}
-
-                  {image && (
-                    <p className="text-sm text-green-400 mt-1 truncate">
-                      {image.name}
-                    </p>
-                  )}
-                </div>
-                <div className="flex justify-between gap-x-2">
-                  <button
-                    onClick={() => setImageEdit(false)}
-                    className="w-full px-1 py-1 bg-red-500 rounded hover:bg-red-600 hover:cursor-pointer"
-                  >
-                    Cancle
-                  </button>
-                  <button
-                    onClick={() => handleUploadImage()}
-                    className="w-full px-2 py-1 bg-green-500 rounded hover:bg-green-600 hover:cursor-pointer"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
-            </>
-          )}
         </div>
 
+          {/* Avatar section */}
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-x-2">
             <p>Avatar</p>
@@ -189,20 +115,24 @@ export const Profile = ({ setIsProfile }) => {
           </div>
         </div>
 
+        {/* profile details section */}
         <div className="flex flex-col">
+           <div className="flex gap-x-2 ">
+            Hey👋
+            <p className="text-green-500">{username}</p>
+          </div>
           <div className="flex gap-x-2">
             no of notes:
             <p className="text-green-500">{notes.length}</p>
           </div>
-          <div className="flex gap-x-2 ">
-            username:
-            <p className="text-green-500">{username}</p>
-          </div>
+         
           <div className="flex gap-x-2">
             email:
             <p className="text-green-500">{email}</p>
           </div>
         </div>
+
+        {/* logout button */}
         <button
           onClick={() => logout()}
           className="bg-red-500 rounded-2xl px-2 py-1 hover:cursor-pointer hover:bg-red-600 active:scale-95 transition-all duration-150"
@@ -210,6 +140,7 @@ export const Profile = ({ setIsProfile }) => {
           Signout
         </button>
         <ToastContainer position="top-right" autoClose={2000} theme="dark" />
+        {customeAvatar && <CustomeAvatar setCustomeAvatar={setCustomeAvatar} changeAvatar={changeAvatar} />}
       </div>
     </>
   );

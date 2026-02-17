@@ -3,7 +3,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import { AddNote } from "./AddNote";
-import axios from "axios";
+
 import { useEffect } from "react";
 import { DeleteNote } from "./DeleteNote";
 import { UpdateNote } from "./UpdateNote";
