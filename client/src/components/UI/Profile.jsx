@@ -32,12 +32,10 @@ export const Profile = ({ setIsProfile }) => {
   //   }
   // };
 
-
-
   const changeAvatar = async (avatarId, imageUrl) => {
     try {
-      setIsAvatarChanging(true)
-      const res = await axios.post(`${BACKEND_URL}/profile/upload`, {
+      setIsAvatarChanging(true);
+      await axios.post(`${BACKEND_URL}/profile/upload`, {
         avatarId,
         imageUrl,
         username,
@@ -46,7 +44,7 @@ export const Profile = ({ setIsProfile }) => {
       // console.log("after uploading on db", res);
       getProfileImage();
       getAvatars();
-      setIsAvatarChanging(false)
+      setIsAvatarChanging(false);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +95,7 @@ export const Profile = ({ setIsProfile }) => {
           </div>
         </div>
 
-          {/* Avatar section */}
+        {/* Avatar section */}
         <div className="flex flex-col gap-y-2">
           <div className="flex gap-x-2">
             <p>Avatar</p>
@@ -109,7 +107,7 @@ export const Profile = ({ setIsProfile }) => {
                 key={avatar._id}
                 src={avatar.imageUrl}
                 onClick={() => changeAvatar(avatar._id, avatar.imageUrl)}
-                className={`w-10 h-10 rounded-full border ${avatar.imageUrl != imageUrl ? "border-white hover:scale-105 active:scale-90"  : "border-green-500 scale-110 "} hover:cursor-pointer  duration-150 transition-all  `}
+                className={`w-10 h-10 rounded-full border ${avatar.imageUrl != imageUrl ? "border-white hover:scale-105 active:scale-90" : "border-green-500 scale-110 "} hover:cursor-pointer  duration-150 transition-all  `}
               />
             ))}
           </div>
@@ -117,16 +115,17 @@ export const Profile = ({ setIsProfile }) => {
 
         {/* profile details section */}
         <div className="flex flex-col">
-           <div className="flex gap-x-2 ">
+          <div className="flex gap-x-2 ">
             Hey
             <p className="text-green-500">{username}</p>
             👋
           </div>
           <div className="flex gap-x-2">
-            <span className="text-green-500">count(</span>notes<span className="text-green-500">)</span>:
+            <span className="text-green-500">count(</span>notes
+            <span className="text-green-500">)</span>:
             <p className="text-green-500">{notes.length}</p>
           </div>
-         
+
           <div className="flex flex-col gap-x-2">
             email⤵
             <p className="text-green-500">{email}</p>
@@ -141,7 +140,13 @@ export const Profile = ({ setIsProfile }) => {
           Signout
         </button>
         <ToastContainer position="top-right" autoClose={2000} theme="dark" />
-        {customeAvatar && <CustomeAvatar setCustomeAvatar={setCustomeAvatar} changeAvatar={changeAvatar} />}
+        {customeAvatar && (
+          <CustomeAvatar
+            setCustomeAvatar={setCustomeAvatar}
+            changeAvatar={changeAvatar}
+            isAvatarChanging={isAvatarChanging}
+          />
+        )}
       </div>
     </>
   );
