@@ -123,10 +123,10 @@ export const Profile = ({ setIsProfile }) => {
           <div className="flex gap-x-2">
             <span className="text-green-500">count(</span>notes
             <span className="text-green-500">)</span>:
-            <p className="text-green-500">{notes.length}</p>
+            <p >{notes.length}</p>
           </div>
 
-          <div className="flex flex-col gap-x-2">
+          <div className="flex flex-col">
             email⤵
             <p className="text-green-500">{email}</p>
           </div>

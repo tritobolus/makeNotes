@@ -83,9 +83,9 @@ export const CustomeAvatar = ({
 
         {/* Avatar Grid */}
         <div className="mb-8">
-          <div className="flex gap-x-5">
+          <div className="flex gap-x-5 p-1">
             <p className="text-lg font-medium mb-3">Your Avatars</p>
-            {isAvatarChanging && <p className="text-red-500">changing...</p>}
+            {isAvatarChanging && <p className="text-red-500 font-semibold mt-1 ">changing...</p>}
           </div>
 
           {customeAvatars.length === 0 ? (
