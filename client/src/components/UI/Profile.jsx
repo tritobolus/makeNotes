@@ -118,16 +118,17 @@ export const Profile = ({ setIsProfile }) => {
         {/* profile details section */}
         <div className="flex flex-col">
            <div className="flex gap-x-2 ">
-            Hey👋
+            Hey
             <p className="text-green-500">{username}</p>
+            👋
           </div>
           <div className="flex gap-x-2">
-            no of notes:
+            <span className="text-green-500">count(</span>notes<span className="text-green-500">)</span>:
             <p className="text-green-500">{notes.length}</p>
           </div>
          
-          <div className="flex gap-x-2">
-            email:
+          <div className="flex flex-col gap-x-2">
+            email⤵
             <p className="text-green-500">{email}</p>
           </div>
         </div>

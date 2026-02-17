@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [notes, setNotes] = useState([]);
   const [avatars, setAvatars] = useState([]);
+  const [customeAvatars, setCustomeAvatars] = useState([]);
 
   const BACKEND_URL = import.meta.env.VITE_API_BACKEND_URL;
 
@@ -37,6 +38,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getCustomeAvatars = async () => {
+    try {
+      const res = await axios.get(`${BACKEND_URL}/customeAvatar/get`, {
+        params: {
+          username: username,
+        },
+      });
+      setCustomeAvatars(res.data.avatars);
+    } catch (error) {
+      consoel.log(error);
+    }
+  };
+
   const getNotes = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/note/get`, {
@@ -52,12 +66,9 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get(
-        `${BACKEND_URL}/authentication/verify`,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`${BACKEND_URL}/authentication/verify`, {
+        withCredentials: true,
+      });
       if (res.data.message === "Success") {
         setAuth(true);
         setUserId(res.data.userId);
@@ -90,6 +101,8 @@ export const AuthProvider = ({ children }) => {
         searchQuery,
         setSearchQuery,
         getProfileImage,
+        getCustomeAvatars,
+        customeAvatars
       }}
     >
       {children}

@@ -14,23 +14,13 @@ export const CustomeAvatar = ({ setCustomeAvatar, changeAvatar}) => {
         BACKEND_URL,
         avatars,
         getAvatars,
+        customeAvatars,
+        getCustomeAvatars
       } = useAuth();
   const [imageEdit, setImageEdit] = useState(false);
   const [image, setImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [customeAvatars, setCustomeAvatars] = useState([])
 
-  const getCustomeAvatars = async() => {
-    try {
-        const res = await axios.get(`${BACKEND_URL}/customeAvatar/get`,{
-        params: {
-          username: username,
-        },})
-        setCustomeAvatars(res.data.avatars)
-    } catch (error) {
-        consoel.log(error)
-    }
-  }
 
   useEffect(() => {
     getCustomeAvatars()
